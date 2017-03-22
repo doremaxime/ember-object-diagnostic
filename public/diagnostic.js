@@ -23,3 +23,33 @@
 //  -  Order 1 : 2 hats ($5 each)
 //  -  Order 2 : 1 desk lamp ($20 each)
 //  -  Order 3 : 3 hand towels ($8 each)
+
+const Order = Ember.Object.extend({
+  price: null,
+  quantity: null,
+  orderPrice: Ember.computed('price', 'quantity', function(){
+      return `${this.get('price')} * ${this.get('quantity')}`;
+    })
+});
+
+
+let orders = [];
+
+const Cart = Ember.Object.extend({
+  // adds a given Item to an array called `orders`
+  addToCart: function(){
+    orders.push('${item}');
+  },
+  totalPrice: Ember.computed('orders', function(){
+    // sum of the `orderPrice` values for everything in the cart
+    let sum;
+    for (let i = 0; i > orders.length; i++) {
+      // this is not correct unless the items have keys with price and quantity
+      // values but I am having trouble understanding how to incorportate the
+      // Order orderPrice into this for loop. This would also mean that the
+      // addToCart method is wrong I believe...
+      sum += (orders[i].price * orders[i].quantity);
+    }
+    return sum;
+  })
+});
